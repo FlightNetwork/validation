@@ -7,6 +7,8 @@ class ValicationMacrosSpec extends Specification {
   case class Person(name: String, age: Int, address: Address)
   case class Business(name: String, addresses: Seq[Address])
 
+  val TestErrorCode = "TEST_ERROR_CODE"
+
   implicit val addressValidator: Validator[Address] =
     validate[Address].
     field(_.house)(warn(gte(1))).

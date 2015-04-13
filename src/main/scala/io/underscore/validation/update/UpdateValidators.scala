@@ -15,14 +15,14 @@ trait UpdateValidators {
       if((newValue == oldValue) || (func.lift apply ((newValue, oldValue)) getOrElse false)) {
         pass
       } else {
-        fail("You cannot change this field to this value")
+        fail(message = "You cannot change this field to this value")
       }
     }
 
   def cannotUpdate[A]: UpdateValidator[A] =
     UpdateValidator[A] { (newValue, oldValue) =>
       if(newValue == oldValue) pass
-      else fail("You cannot change this value.")
+      else fail(message = "You cannot change this value.")
     }
 
   def cannotChange[A]: UpdateValidator[A] =
@@ -33,7 +33,7 @@ trait UpdateValidators {
       if((newValue == oldValue) || (func.lift apply newValue getOrElse false)) {
         pass
       } else {
-        fail("You cannot change this field to this value")
+        fail(message = "You cannot change this field to this value")
       }
     }
 

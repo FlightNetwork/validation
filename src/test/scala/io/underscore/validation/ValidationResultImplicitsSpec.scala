@@ -4,9 +4,15 @@ import org.specs2.mutable._
 
 class ValidationResultImplicitsSpec extends Specification {
   "ValidationResultImplicits" should {
+    val UnknwonErrorCode = "UNKNOWN"
+    val ErrorMessage = "error message"
+    val ErrorPath = "error path"
+    val WarningMessage = "warning message"
+    val WarningPath = "warning path"
+
     val results = Seq(
-      ValidationError(message = "message1", path = "field1" :: PNil),
-      ValidationWarning(message = "message2", path = "field2" :: PNil)
+      ValidationError(code = UnknwonErrorCode, message = ErrorMessage, path = ErrorPath :: PNil),
+      ValidationWarning(code = UnknwonErrorCode, message = WarningMessage, path = WarningPath :: PNil)
     )
 
     "allow the user to identify errors and warnings" in {
@@ -25,24 +31,24 @@ class ValidationResultImplicitsSpec extends Specification {
 
     "allow the user to convert errors and warnings" in {
       results.toErrors mustEqual Seq(
-        ValidationError(message = "message1", path = "field1" :: PNil),
-        ValidationError(message = "message2", path = "field2" :: PNil)
+        ValidationError(code = UnknwonErrorCode, message = ErrorMessage, path = ErrorPath :: PNil),
+        ValidationError(code = UnknwonErrorCode, message = WarningMessage, path = WarningPath :: PNil)
       )
       results.toWarnings mustEqual Seq(
-        ValidationWarning(message = "message1", path = "field1" :: PNil),
-        ValidationWarning(message = "message2", path = "field2" :: PNil)
+        ValidationWarning(code = UnknwonErrorCode, message = ErrorMessage, path = ErrorPath :: PNil),
+        ValidationWarning(code = UnknwonErrorCode, message = WarningMessage, path = WarningPath :: PNil)
       )
     }
 
-    "allow the user to previc results" in {
+    "allow the user to prefix results" in {
       results.prefix("field") mustEqual Seq(
-        ValidationError(message = "message1", path = "field" :: "field1" :: PNil),
-        ValidationWarning(message = "message2", path = "field" :: "field2" :: PNil)
+        ValidationError(code = UnknwonErrorCode, message = ErrorMessage, path = "field" :: ErrorPath :: PNil),
+        ValidationWarning(code = UnknwonErrorCode, message = WarningMessage, path = "field" :: WarningPath :: PNil)
       )
 
       results.prefix(1234567) mustEqual Seq(
-        ValidationError(message = "message1", path = 1234567 :: "field1" :: PNil),
-        ValidationWarning(message = "message2", path = 1234567 :: "field2" :: PNil)
+        ValidationError(code = UnknwonErrorCode, message = ErrorMessage, path = 1234567 :: ErrorPath :: PNil),
+        ValidationWarning(code = UnknwonErrorCode, message = WarningMessage, path = 1234567 :: WarningPath :: PNil)
       )
     }
 

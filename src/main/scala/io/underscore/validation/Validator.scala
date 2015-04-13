@@ -11,7 +11,7 @@ trait Validator[A] extends (A => Seq[ValidationResult]) {
     Validator[A] { in => this(in) ++ that(in) }
 
   def andPrefix[B](fields: String*)(that: Validator[A]): Validator[A] =
-    this and (that.prefix(fields: _*))
+    this and that.prefix(fields: _*)
 
   def seq: Validator[Seq[A]] =
     Validator[Seq[A]] { seq =>

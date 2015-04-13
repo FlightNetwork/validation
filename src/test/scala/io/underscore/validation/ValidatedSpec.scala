@@ -10,25 +10,31 @@ class ValidatedSpec extends Specification {
         b <- Validated(a + 1)
         c <- Validated(b + 1)
         d <- Validated(c + 1)
-      } yield d) mustEqual (Validated(3))
+      } yield d) mustEqual Validated(3)
     }
 
     "propagate warnings in a success" in {
+      val UnknwonErrorCode = "UNKNOWN"
+      val FailMessage = "failed at c"
+
       (for {
         a <- Validated(0)
         b <- Validated(a + 1)
-        c <- Validated(b + 1, Seq(ValidationWarning(message = "failed at c")))
+        c <- Validated(b + 1, Seq(ValidationWarning(code = UnknwonErrorCode, message = FailMessage)))
         d <- Validated(c + 1)
-      } yield d) mustEqual (Validated(3, Seq(ValidationWarning("UNKNOWN", "failed at c"))))
+      } yield d) mustEqual Validated(3, Seq(ValidationWarning("UNKNOWN", "failed at c")))
     }
 
     "shortcut in an error" in {
+      val UnknwonErrorCode = "UNKNOWN"
+      val FailMessage = "failed at c"
+
       (for {
         a <- Validated(0)
         b <- Validated(a + 1)
-        c <- Validated(b + 1, Seq(ValidationError(message = "failed at c")))
+        c <- Validated(b + 1, Seq(ValidationError(code = UnknwonErrorCode ,message = "failed at c")))
         d <- Validated(c + 1)
-      } yield d) mustEqual (Validated(2, Seq(ValidationError("UNKNOWN", "failed at c"))))
+      } yield d) mustEqual Validated(2, Seq(ValidationError("UNKNOWN", "failed at c")))
     }
   }
 }
