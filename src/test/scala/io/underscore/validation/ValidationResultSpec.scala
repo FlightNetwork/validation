@@ -4,7 +4,7 @@ import org.specs2.mutable._
 
 class ValidationResultSpec extends Specification {
   "a validation error" should {
-    val error = ValidationError("message")
+    val error = ValidationError(message = "message")
 
     "contain a message and a path" in {
       error.message mustEqual "message"
@@ -17,18 +17,18 @@ class ValidationResultSpec extends Specification {
     }
 
     "be prefixable" in {
-      error.prefix("field") mustEqual ValidationError("message", "field" :: PNil)
-      error.prefix(1234567) mustEqual ValidationError("message", 1234567 :: PNil)
+      error.prefix("field") mustEqual ValidationError(message = "message", path = "field" :: PNil)
+      error.prefix(1234567) mustEqual ValidationError(message = "message", path = 1234567 :: PNil)
     }
 
     "be convertable to a warning" in {
       error.toError   mustEqual error
-      error.toWarning mustEqual ValidationWarning("message")
+      error.toWarning mustEqual ValidationWarning(message = "message")
     }
   }
 
   "a validation warning" should {
-    val warning = ValidationWarning("message")
+    val warning = ValidationWarning(message = "message")
 
     "contain a message and a path" in {
       warning.message mustEqual "message"
@@ -41,12 +41,12 @@ class ValidationResultSpec extends Specification {
     }
 
     "be prefixable" in {
-      warning.prefix("field") mustEqual ValidationWarning("message", "field" :: PNil)
-      warning.prefix(1234567) mustEqual ValidationWarning("message", 1234567 :: PNil)
+      warning.prefix("field") mustEqual ValidationWarning(message = "message", path = "field" :: PNil)
+      warning.prefix(1234567) mustEqual ValidationWarning(message = "message", path = 1234567 :: PNil)
     }
 
     "be convertable to an error" in {
-      warning.toError   mustEqual ValidationError("message")
+      warning.toError   mustEqual ValidationError(message = "message")
       warning.toWarning mustEqual warning
     }
   }

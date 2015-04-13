@@ -1,6 +1,7 @@
 package io.underscore.validation
 
 sealed trait ValidationResult {
+  def code: String
   def message: String
   def path: ValidationPath
 
@@ -13,7 +14,9 @@ sealed trait ValidationResult {
   def toWarning: ValidationWarning
 }
 
-case class ValidationError(message: String, path: ValidationPath = PNil) extends ValidationResult {
+case class ValidationError(code: String = ValidationResult.DefaultValidationErrorCode,
+                           message: String,
+                           path: ValidationPath = PNil) extends ValidationResult {
   def prefix[A: ValidationPathPrefix](prefix: A) =
     this.copy(path = prefix :: path)
 
@@ -21,16 +24,22 @@ case class ValidationError(message: String, path: ValidationPath = PNil) extends
   val isWarning = false
 
   def toError   = this
-  def toWarning = ValidationWarning(message, path)
+  def toWarning = ValidationWarning(code, message, path)
 }
 
-case class ValidationWarning(message: String, path: ValidationPath = PNil) extends ValidationResult {
+case class ValidationWarning(code: String = ValidationResult.DefaultValidationErrorCode,
+                             message: String,
+                             path: ValidationPath = PNil) extends ValidationResult {
   def prefix[A: ValidationPathPrefix](prefix: A) =
     this.copy(path = prefix :: path)
 
   val isError   = false
   val isWarning = true
 
-  def toError   = ValidationError(message, path)
+  def toError   = ValidationError(code, message, path)
   def toWarning = this
+}
+
+object ValidationResult {
+  val DefaultValidationErrorCode = "UNKNOWN"
 }

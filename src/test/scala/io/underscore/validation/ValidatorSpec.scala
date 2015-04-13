@@ -11,13 +11,13 @@ class ValidatorSpec extends Specification {
 
   "fail helper" should {
     "create a single error" in {
-      fail("message") mustEqual Seq(ValidationError("message"))
+      fail("message") mustEqual Seq(ValidationError(message = "message"))
     }
   }
 
   "warn helper" should {
     "create a single warning" in {
-      warn("message") mustEqual Seq(ValidationWarning("message"))
+      warn("message") mustEqual Seq(ValidationWarning(message = "message"))
     }
   }
 

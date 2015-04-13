@@ -1,9 +1,7 @@
-*.class
 *.log
 
 # sbt specific
 .cache/
-.history/
 .lib/
 dist/*
 target/
@@ -15,3 +13,18 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+logs
+project/project
+tmp
+dist
+/.idea
+/*.iml
+/out
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
+/project/.idea
+atlassian-ide-plugin.xml

@@ -17,18 +17,18 @@ class ValidatedSpec extends Specification {
       (for {
         a <- Validated(0)
         b <- Validated(a + 1)
-        c <- Validated(b + 1, Seq(ValidationWarning("failed at c")))
+        c <- Validated(b + 1, Seq(ValidationWarning(message = "failed at c")))
         d <- Validated(c + 1)
-      } yield d) mustEqual (Validated(3, Seq(ValidationWarning("failed at c"))))
+      } yield d) mustEqual (Validated(3, Seq(ValidationWarning("UNKNOWN", "failed at c"))))
     }
 
     "shortcut in an error" in {
       (for {
         a <- Validated(0)
         b <- Validated(a + 1)
-        c <- Validated(b + 1, Seq(ValidationError("failed at c")))
+        c <- Validated(b + 1, Seq(ValidationError(message = "failed at c")))
         d <- Validated(c + 1)
-      } yield d) mustEqual (Validated(2, Seq(ValidationError("failed at c"))))
+      } yield d) mustEqual (Validated(2, Seq(ValidationError("UNKNOWN", "failed at c"))))
     }
   }
 }

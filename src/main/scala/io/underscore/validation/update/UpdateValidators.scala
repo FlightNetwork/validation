@@ -21,7 +21,8 @@ trait UpdateValidators {
 
   def cannotUpdate[A]: UpdateValidator[A] =
     UpdateValidator[A] { (newValue, oldValue) =>
-      if(newValue == oldValue) pass else fail("You cannot change this value.")
+      if(newValue == oldValue) pass
+      else fail("You cannot change this value.")
     }
 
   def cannotChange[A]: UpdateValidator[A] =
