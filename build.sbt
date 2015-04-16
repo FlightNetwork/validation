@@ -2,7 +2,7 @@ organization := "io.underscore"
 
 name := "validation"
 
-version := "0.0.2"
+version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
